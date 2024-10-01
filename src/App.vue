@@ -97,7 +97,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 
 import axios from 'axios';
 import { ref, reactive, onMounted } from 'vue'; 
