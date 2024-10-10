@@ -12,11 +12,11 @@
       </div>
     </div>
 
-    <!-- Selección de Pokémon -->
+
     <div v-if="selectingPokemons && !battleStarted && !battleEnded" class="pokemon-selection battle-background">
       <h1>Jugador {{ currentPlayer }}: Selecciona tus Pokémon</h1>
       <div class="selection-container">
-        <!-- Pokémon seleccionados por el Jugador 1 -->
+
         <div class="selected-pokemons">
           <h2>Jugador 1</h2>
           <ul>
@@ -27,7 +27,7 @@
           </ul>
         </div>
 
-        <!-- Contenedor de selección de Pokémon -->
+
         <div class="pokemon-container">
           <div class="pokemon-card"
                v-for="pokemon in allPokemons"
@@ -38,7 +38,7 @@
             <p class="pokemon-name">{{ capitalize(pokemon.name) }}</p>
             <img :src="pokemon.sprites.front_default" alt="Pokémon" class="pokemon-image animated" />
 
-            <!-- Mostrar selector de estadísticas solo para el Jugador 1 -->
+
             <div v-if="currentPlayer === 1 && isPokemonSelected(pokemon)">
               <label>Selecciona Estadística:</label>
               <select
@@ -64,7 +64,7 @@
           </div>
         </div>
 
-        <!-- Pokémon seleccionados por el Jugador 2 -->
+
         <div class="selected-pokemons">
           <h2>Jugador 2</h2>
           <ul>
@@ -76,7 +76,7 @@
         </div>
       </div>
 
-      <!-- Botones de navegación -->
+
       <div class="buttons">
         <button
           @click="nextPlayer"
@@ -96,7 +96,7 @@
       </div>
     </div>
 
-    <!-- Batalla en curso -->
+
     <div v-if="battleStarted" class="battles battle-background">
       <h1>Batalla Pokémon - Ronda {{ currentRound + 1 }} de {{ rounds }}</h1>
       <div v-if="loading" class="loading">Cargando...</div>
