@@ -464,10 +464,18 @@ export default {
   align-items: center;
   justify-content: center;
   gap: 20px;
-  color: rgba(0, 0, 0, 0.752);
   background-repeat: no-repeat;
   width: 100%;
   background-size: cover;
+  position: relative; 
+  z-index: 2; 
+  font-size: 1.5rem; 
+  color: #FFD700; 
+  font-family: fantasy ;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4); 
+  transition: transform 0.3s ease; 
+  text-align: center; 
+  animation: bounceTitle 2s ease infinite; 
 }
 
 .rounds button, .next-button, .start-button, .reset-button {
@@ -514,7 +522,7 @@ export default {
 }
 
 .battles, .final-winner {
-  background-image: url('https://img.freepik.com/vector-gratis/fondo-efecto-zoom-degradado_23-2149737565.jpg');
+  background-image: url('https://i.pinimg.com/originals/89/a1/4d/89a14d3b81546e2fe51cbf4d0d6b8b60.gif');
   background-size: cover;
   background-position: center;
   padding: 20px;
