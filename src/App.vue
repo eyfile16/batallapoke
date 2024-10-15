@@ -50,16 +50,10 @@
               </select>
             </div>
 
-            <!-- Mostrar selector de estadísticas para Jugador 2 -->
+            <!-- Mostrar estadística asignada para Jugador 2 -->
             <div v-if="currentPlayer === 2 && isPokemonSelected(pokemon)">
-              <label>Selecciona Estadística:</label>
-              <select
-                v-model="selectedStatPlayer2[pokemon.id]"
-                @change="handleStatChange(pokemon.id, 2)"
-              >
-                <option disabled value="">Selecciona Estadística</option>
-                <option v-for="stat in pokemon.stats" :key="stat.name" :value="stat.name">{{ capitalize(stat.name) }}</option>
-              </select>
+              <label>Estadística Asignada:</label>
+              <span>{{ capitalize(selectedStatPlayer2[pokemon.id]) }}</span>
             </div>
           </div>
         </div>
@@ -130,14 +124,14 @@
         </div>
       </div>
 
- 
+
       <div class="buttons">
         <button @click="determineWinner" class="next-button">Ver resultado de la ronda</button>
         <button @click="nextRound" class="next-button" v-if="winner">Siguiente Ronda</button>
         <button @click="reset" class="reset-button">Volver a seleccionar rondas</button>
       </div>
 
-  
+
       <div v-if="winner" class="winner">
         <span v-if="winner.name === 'Empate'">¡Empate!</span>
         <span v-else>¡Ganador de la ronda: {{ capitalize(winner.name) }}!</span>
@@ -252,8 +246,12 @@ export default {
         for (let i = 0; i < rounds.value; i++) {
           if (availablePokemons.length === 0) break;
           const randomIndex = Math.floor(Math.random() * availablePokemons.length);
-          selectedPokemonsPlayer2.value.push(availablePokemons[randomIndex]);
-          availablePokemons.splice(randomIndex, 1);
+          const selectedPokemon = availablePokemons.splice(randomIndex, 1)[0];
+          selectedPokemonsPlayer2.value.push(selectedPokemon);
+          
+          // Asignar la misma estadística que el Jugador 1
+          const player1Pokemon = selectedPokemonsPlayer1.value[i];
+          selectedStatPlayer2.value[selectedPokemon.id] = selectedStatPlayer1.value[player1Pokemon.id];
         }
 
 
@@ -264,14 +262,20 @@ export default {
       }
     };
 
-  
-    const handleStatChange = (pokemonId, player) => {
 
+    const handleStatChange = (pokemonId, player) => {
+      if (player === 1) {
+        // Verificar si todas las estadísticas del Jugador 1 están seleccionadas
+        if (areAllStatsSelected(selectedStatPlayer1.value)) {
+          nextPlayer();
+        }
+      }
+      // No se requiere lógica para el Jugador 2
     };
 
 
     const startBattle = () => {
- 
+   
       if (!areAllStatsSelected(selectedStatPlayer1.value) || !areAllStatsSelected(selectedStatPlayer2.value)) {
         alert('Asegúrate de haber seleccionado una estadística para cada Pokémon de ambos jugadores.');
         return;
@@ -306,7 +310,7 @@ export default {
       }
     };
 
- 
+
     const getStatValue = (pokemon, statName) => {
       const stat = pokemon.stats.find(s => s.name === statName);
       return stat ? stat.base_stat : 0;
@@ -378,8 +382,10 @@ export default {
 
 
     const areAllStatsSelected = (stats) => {
-      return Object.values(stats).length === rounds.value &&
-             Object.values(stats).every(stat => stat !== undefined && stat !== '');
+      return (
+        Object.values(stats).length === rounds.value &&
+        Object.values(stats).every((stat) => stat !== undefined && stat !== "")
+      );
     };
 
     const getPokemonTypeColor = (pokemon) => {
@@ -398,7 +404,7 @@ export default {
           case 'speed':
             return '#0000FF'; 
           case 'special-attack':
-            return '##FFD704'; 
+            return '#FFD704'; // Corregido: Eliminado doble #
           case 'special-defense':
             return '#ff4500'; 
           default:
@@ -437,11 +443,13 @@ export default {
       reset,
       areAllStatsSelected,
       getPokemonTypeColor,
-      capitalize
+      capitalize,
+      handleStatChange // Asegúrate de exportar esta función
     };
   },
 };
 </script>
+
 
 
 <style scoped>
