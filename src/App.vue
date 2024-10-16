@@ -477,7 +477,7 @@ export default {
   background-size: cover;
   position: relative; 
   z-index: 2; 
-  font-size: 1.5rem; 
+  font-size: 1rem; 
   color: #FFD700; 
   font-family: fantasy ;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4); 
